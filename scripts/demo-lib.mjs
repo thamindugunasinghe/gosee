@@ -49,6 +49,8 @@ export const DEMO_MOBILES = [
   "+94772000001", "+94772000002", "+94772000003", "+94772000004", "+94772000005", "+94772000006",
   "+94702111487",
 ];
+// Demo dashboard (Procurement) logins created for client testing.
+export const DEMO_EMAILS = ["client.demo@gosee.lk"];
 
 /** Remove every demo entity — by tracked state AND by markers. FK-safe order. */
 export async function cleanup(s, state) {
@@ -63,6 +65,8 @@ export async function cleanup(s, state) {
   (mSup ?? []).forEach((x) => { supIds.add(x.id); if (x.contact_user_id) userIds.add(x.contact_user_id); });
   const { data: mUsers } = await s.from("profiles").select("id").in("mobile", DEMO_MOBILES);
   (mUsers ?? []).forEach((u) => userIds.add(u.id));
+  const { data: mEmails } = await s.from("profiles").select("id").in("email", DEMO_EMAILS);
+  (mEmails ?? []).forEach((u) => userIds.add(u.id));
 
   const jobs = [...jobIds], suppliers = [...supIds], users = [...userIds];
 

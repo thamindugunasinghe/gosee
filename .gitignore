@@ -13,3 +13,4 @@ scripts/.demo-state.json
 # extra safety: never commit any env file except the example templates
 .env*
 !.env*.example
+GoSee_Client_Testing_Guide.pdf

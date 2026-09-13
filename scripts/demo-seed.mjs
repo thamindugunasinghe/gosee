@@ -141,6 +141,8 @@ async function main() {
   const now = Date.now();
   const iso = (ms) => new Date(ms).toISOString();
 
+  // Set DEMO_NO_JOBS=1 to seed only accounts + categories (the client creates jobs herself).
+  if (!process.env.DEMO_NO_JOBS) {
   console.log("Creating demo jobs across every state…");
   // 1) Fresh — engineer must pick a time (live scheduler demo)
   await insertJob({
@@ -186,6 +188,7 @@ async function main() {
     responses: Object.fromEntries(elecHigh.map((id) => [id, "available"])),
     attendance: Object.fromEntries(elecHigh.map((id) => [id, "attended"])),
   }, created);
+  }
 
   saveState(created);
 
@@ -201,7 +204,11 @@ async function main() {
   console.log("\n---- Paste this into Supabase → Auth → Phone → Test OTP ----");
   console.log(otpList);
   console.log("-----------------------------------------------------------");
-  console.log("\nJobs created: DEMO-1001 (pick time) · 1002 (responses) · 1003 (confirmed) · 1004 (close/recirculate) · 1005 (closed)");
+  if (process.env.DEMO_NO_JOBS) {
+    console.log("\nAccounts + categories seeded. NO jobs created — the client creates jobs herself.");
+  } else {
+    console.log("\nJobs created: DEMO-1001 (pick time) · 1002 (responses) · 1003 (confirmed) · 1004 (close/recirculate) · 1005 (closed)");
+  }
   console.log("Reset everything later with:  node scripts/demo-reset.mjs\n");
 }
 
