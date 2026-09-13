@@ -1,0 +1,102 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* GoSee brand — a light-theme dashboard, fixed regardless of OS dark mode. */
+:root {
+  --background: #f4f6fb;
+  --foreground: #0b1b3a;
+
+  --brand-navy: #0a2a5e;
+  --brand-navy-deep: #071e45;
+  --brand-blue: #1e5fd8;
+  --brand-blue-dark: #1a52bd;
+  --brand-green: #22c55e;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+}
+
+input,
+select,
+textarea {
+  color: #0f172a;
+  background-color: #ffffff;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #94a3b8;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* ---- Motion (standard tier: entrance stagger + hover lift) ---- */
+@keyframes gs-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes gs-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.gs-animate-in {
+  animation: gs-fade-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.gs-fade-in {
+  animation: gs-fade-in 0.4s ease both;
+}
+
+/* Stagger children by nth-order */
+.gs-stagger > * {
+  animation: gs-fade-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.gs-stagger > *:nth-child(1) { animation-delay: 0.02s; }
+.gs-stagger > *:nth-child(2) { animation-delay: 0.06s; }
+.gs-stagger > *:nth-child(3) { animation-delay: 0.10s; }
+.gs-stagger > *:nth-child(4) { animation-delay: 0.14s; }
+.gs-stagger > *:nth-child(5) { animation-delay: 0.18s; }
+.gs-stagger > *:nth-child(6) { animation-delay: 0.22s; }
+.gs-stagger > *:nth-child(7) { animation-delay: 0.26s; }
+.gs-stagger > *:nth-child(8) { animation-delay: 0.30s; }
+.gs-stagger > *:nth-child(9) { animation-delay: 0.34s; }
+
+/* Card hover lift */
+.gs-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+.gs-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px -12px rgba(10, 42, 94, 0.35);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gs-animate-in,
+  .gs-fade-in,
+  .gs-stagger > * {
+    animation: none !important;
+  }
+  .gs-card {
+    transition: none;
+  }
+}

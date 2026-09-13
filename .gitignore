@@ -1,0 +1,15 @@
+node_modules/
+.env
+.env.local
+.next/
+.expo/
+dist/
+supabase/.temp/
+supabase/.branches/
+.DS_Store
+.vercel/
+scripts/.demo-state.json
+*.log
+# extra safety: never commit any env file except the example templates
+.env*
+!.env*.example
