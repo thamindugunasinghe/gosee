@@ -8,14 +8,14 @@
     "userInterfaceStyle": "light",
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.gosee.app",
+      "bundleIdentifier": "com.wiwis.gosee",
       "buildNumber": "1",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       }
     },
     "android": {
-      "package": "com.gosee.app",
+      "package": "com.wiwis.gosee",
       "adaptiveIcon": {
         "backgroundColor": "#0a2a5e",
         "foregroundImage": "./assets/android-icon-foreground.png",
