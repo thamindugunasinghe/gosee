@@ -45,13 +45,16 @@ Deno.serve(async (req) => {
     return new Response(JSON.stringify({ error: "unauthorized" }), { status: 401 });
   }
 
-  // DEMO MODE: when system_config.demo_sms_redirect holds a number, every message
-  // is delivered to THAT number (labelled with the real recipient) so a whole
-  // multi-role flow can be shown on one phone. Clear it to return to normal.
-  let redirect = "";
+  // DEMO MODE: when system_config.demo_sms_redirect holds one or more numbers
+  // (comma-separated), every message is delivered to ALL of them (labelled with
+  // the real recipient) so a whole multi-role flow can be watched. Clear to normalise.
+  let redirectList: string[] = [];
   const { data: cfgRow } = await supabase
     .from("system_config").select("value").eq("key", "demo_sms_redirect").maybeSingle();
-  if (cfgRow?.value) redirect = String(cfgRow.value).trim();
+  if (cfgRow?.value) {
+    redirectList = String(cfgRow.value).split(",").map((x) => x.trim()).filter(Boolean);
+  }
+  const redirect = redirectList.length > 0;
 
   const { data: queued, error } = await supabase
     .from("notification_log")
@@ -69,8 +72,8 @@ Deno.serve(async (req) => {
   let failed = 0;
 
   for (const n of queued ?? []) {
-    const to = redirect || n.recipient_mobile;
-    if (!to) {
+    const targets = redirect ? redirectList : (n.recipient_mobile ? [n.recipient_mobile] : []);
+    if (targets.length === 0) {
       await supabase.from("notification_log")
         .update({ status: "failed", error: "no recipient mobile" })
         .eq("id", n.id);
@@ -79,15 +82,23 @@ Deno.serve(async (req) => {
     }
     let body = brandMessage(n.message_type, n.message);
     if (redirect) body += `\n(demo: intended for ${n.recipient_mobile ?? "unregistered number"})`;
-    const result = await sendSms(to, body);
+    // Deliver to every target; the row counts as sent if at least one succeeds.
+    let anyOk = false;
+    let lastErr = "unknown error";
+    let providerId: string | null = null;
+    for (const to of targets) {
+      const result = await sendSms(to, body);
+      if (result.ok) { anyOk = true; providerId = result.providerMessageId ?? providerId; }
+      else lastErr = result.error ?? lastErr;
+    }
     await supabase.from("notification_log")
       .update(
-        result.ok
-          ? { status: "sent", sent_at: new Date().toISOString(), provider_message_id: result.providerMessageId ?? null }
-          : { status: "failed", error: result.error ?? "unknown error" },
+        anyOk
+          ? { status: "sent", sent_at: new Date().toISOString(), provider_message_id: providerId }
+          : { status: "failed", error: lastErr },
       )
       .eq("id", n.id);
-    result.ok ? sent++ : failed++;
+    anyOk ? sent++ : failed++;
   }
 
   return new Response(JSON.stringify({ processed: (queued ?? []).length, sent, failed }), {
