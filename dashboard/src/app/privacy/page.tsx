@@ -4,7 +4,7 @@ export const metadata = { title: "Privacy Policy — GoSee" };
 
 // NOTE: confirm the company legal name and contact email below before publishing.
 const COMPANY = "WIWIS AI";
-const CONTACT = "transfleet.primecare@gmail.com";
+const CONTACT = "team@wiwisai.com";
 const EFFECTIVE = "3 October 2026";
 
 export default function PrivacyPage() {

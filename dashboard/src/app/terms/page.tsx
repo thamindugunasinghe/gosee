@@ -3,7 +3,7 @@ import { LegalPage, P, H2, UL } from "../legal-ui";
 export const metadata = { title: "Terms of Use — GoSee" };
 
 const COMPANY = "WIWIS AI";
-const CONTACT = "transfleet.primecare@gmail.com";
+const CONTACT = "team@wiwisai.com";
 const EFFECTIVE = "3 October 2026";
 
 export default function TermsPage() {

@@ -3,11 +3,8 @@
 Everything to take GoSee live on the **Apple App Store** and **Google Play**, plus
 the exact text/answers to paste into each form.
 
-> Before you start, confirm the company name (`WIWIS AI`) and contact email
-> (`transfleet.primecare@gmail.com`) are correct in the legal pages
-> (`dashboard/src/app/privacy/page.tsx`, `terms/page.tsx`, `support/page.tsx`).
-> Consider switching the email to a `@wiwisai.com` address — just make sure that
-> inbox is monitored, since app reviewers may email it.
+> Company name `WIWIS AI` and contact email `team@wiwisai.com` are set in the legal
+> pages. Make sure the `team@wiwisai.com` inbox is monitored — app reviewers may email it.
 
 ---
 
@@ -99,69 +96,123 @@ GoSee is a business tool. Accounts are provided by your organisation's procureme
 
 ---
 
-## 2. Apple App Store (you already have a TestFlight build)
+## 2. Apple App Store — step by step (you already have a TestFlight build)
 
-1. Go to **appstoreconnect.apple.com → My Apps → GoSee**.
-2. Top-left, click **(＋) → iOS App** version `1.0` if there isn't a draft version.
-3. Fill the **App Store** tab using Section 1 above:
-   - Screenshots (6.7"), Promotional text, Description, Keywords, Support URL,
-     Marketing URL.
-4. **Build:** scroll to *Build* → **＋** → select your uploaded build (the one from
-   `eas build`). If it's not there yet, run a build + `eas submit` first.
-5. **General → App Privacy:** click *Get Started* and enter the data-safety facts above.
-6. **Age Rating:** answer *No* to everything → 4+.
-7. **App Review Information:**
-   - Sign-in required: **Yes**. Username/phone: `0771000001`, Password/code: `000000`.
-   - Notes: *"GoSee is a B2B role-based tool. Log in with the demo number above and
-     code 000000 to see the Engineer experience. SMS login codes are normally sent
-     to registered users; this test number uses a fixed code for review."*
-   - Contact first/last name, phone, email.
-8. **Pricing and Availability:** Free, choose countries (e.g. Sri Lanka + others).
-9. Click **Add for Review → Submit**. Review usually takes 24–48 hours.
+**Where everything lives:** a website called **App Store Connect**. Open a web
+browser (on a computer is easiest) and go to **appstoreconnect.apple.com**. Sign in
+with the Apple ID of your Apple Developer account.
 
-> Tip: if Apple asks why access is limited to invited users, reply that GoSee is a
-> business/enterprise tool and the demo account demonstrates full functionality.
-> (If you ever want it NOT public, you can distribute privately via Apple Business
-> Manager "Custom Apps" instead — ask us.)
+### Step 1 — Open (or create) the GoSee app
+- On the home page, click **Apps**.
+- If you see **GoSee** in the list, click it and skip to Step 2.
+- If it's NOT there: click the **blue + button** (top-left, under "Apps") → **New App**, then fill:
+  - Platforms: tick **iOS**
+  - Name: `GoSee`
+  - Primary Language: **English (U.S.)**
+  - Bundle ID: choose **com.wiwis.gosee** from the dropdown
+  - SKU: type anything, e.g. `gosee-001`
+  - User Access: **Full Access**
+  - Click **Create**.
+
+### Step 2 — Open the version page
+- On the GoSee page, look at the **left sidebar**. Under "iOS App" click the
+  version that says **"1.0 Prepare for Submission"**. This page has all the boxes below.
+
+### Step 3 — Fill each box (copy from Section 1 above)
+- **Previews and Screenshots** (near the top): drag your phone screenshots into the
+  box. Use the **6.7-inch** tab.
+- **Promotional Text** box → paste the Promotional text.
+- **Description** box → paste the Full description.
+- **Keywords** box → paste the Keywords.
+- **Support URL** box → type `https://gosee.wiwisai.com/support`
+- **Marketing URL** box → type `https://gosee.wiwisai.com/`
+
+### Step 4 — Attach the app build
+- Scroll down on the same page to the **Build** section.
+- Click **"Add Build"** (or the **+**). Pick the build you uploaded with `eas` → **Done**.
+- *(If no build appears, it hasn't been uploaded yet. In Terminal run:
+  `cd mobile && npx eas-cli submit --platform ios --latest`, wait ~10 min, refresh.)*
+
+### Step 5 — Age rating
+- Scroll to **General Information** → next to **Age Rating** click **Edit** → answer
+  **No / None** to every question → **Done**. It shows **4+**.
+
+### Step 6 — App Privacy (data safety)
+- In the **left sidebar** click **App Privacy** → **Get Started** (or **Edit**).
+- Add these data types, each marked **"Used for App Functionality"**, **linked to the
+  user = Yes**, **Not used for tracking**: **Name**, **Phone Number**, **Product
+  Interaction** (app activity). → **Publish**.
+
+### Step 7 — App Review Information (so Apple can log in)
+- Back on the version page, scroll to **App Review Information**.
+- Tick **"Sign-in required"**. In the two boxes:
+  - **User name**: `0771000001`
+  - **Password**: `000000`
+- In the **Notes** box, paste:
+  `GoSee is a business (B2B) app with role-based access. Please sign in on the app with phone 0771000001 and code 000000 to see the Engineer experience. Real users receive SMS login codes; this test number uses a fixed code for review.`
+- Fill **Contact Information** (your first/last name, phone, email).
+
+### Step 8 — Price and submit
+- **Left sidebar → Pricing and Availability** → set price to **Free** → pick the
+  countries you want (e.g. Sri Lanka, or all).
+- Go back to the version page. **Top-right**, click **Add for Review**, then
+  **Submit for Review**. Done — review usually takes 1–2 days.
+
+> If Apple asks why login is required, reply: "GoSee is a business/enterprise tool;
+> the demo account provided shows full functionality." (You can also distribute it
+> privately through Apple Business Manager instead of the public store — ask us.)
 
 ---
 
-## 3. Google Play
+## 3. Google Play — step by step
 
-### 3a. Build the Android app (.aab)
+**Where everything lives:** a website called **Google Play Console** at
+**play.google.com/console**. Sign in with your Google Play developer account.
+
+### Step 1 — Build the Android file (on your Mac)
+Open **Terminal** and run:
 ```bash
 cd "/Users/thamindu/Desktop/WIWIS /Nestle/Gosee/GoSee Project/mobile"
 npx eas-cli build --platform android --profile production
 ```
-- When asked **"Generate a new Android Keystore?"** → **Yes** (EAS keeps it safely).
-- When it finishes, **download the `.aab`** from the link it prints.
+- When it asks **"Generate a new Android Keystore?"** type **Yes** (EAS keeps it safe).
+- Wait ~15 min. At the end it prints a link — open it and click **Download** to get
+  the **`.aab`** file (save it somewhere easy, like your Desktop).
 
-### 3b. Create the app in Play Console
-1. Go to **play.google.com/console → Create app**.
-2. Name `GoSee`, default language English, type **App**, **Free**, accept declarations.
+### Step 2 — Create the app
+- In Play Console, click **Create app** (top-right).
+- App name: `GoSee` · Default language: **English** · App or game: **App** ·
+  Free or paid: **Free** · tick the declaration boxes → **Create app**.
 
-### 3c. Fill "App content" (left menu → Policy → App content)
-- **Privacy policy:** `https://gosee.wiwisai.com/privacy`
-- **App access:** *All functionality is restricted* → add instructions:
-  "Log in on the mobile app with phone 0771000001 and code 000000."
-- **Ads:** No.
-- **Content rating:** fill the questionnaire → Everyone.
-- **Target audience:** 18+ (business tool) — or 13+; no children.
-- **Data safety:** enter the facts from Section 1 (Name, Phone, App activity;
-  functionality/account; encrypted in transit; deletion available).
-- **Government app:** No.
+### Step 3 — Fill "App content" (left menu → **Policy and programmes → App content**)
+Click into each item and complete it:
+- **Privacy policy** → paste `https://gosee.wiwisai.com/privacy` → Save.
+- **App access** → choose **"All or some functionality is restricted"** → **Add new
+  instructions** → Name: `Demo login`, type: enter phone `0771000001` and code
+  `000000`, and in the notes write "Log in on the app with this number and code." → Save.
+- **Ads** → **No, my app does not contain ads**.
+- **Content ratings** → **Start questionnaire** → email `team@wiwisai.com`, category
+  **Utility/Productivity/Communication**, answer **No** to all content questions → Submit.
+- **Target audience and content** → choose age groups (e.g. **18+**); no children → Save.
+- **Data safety** → **Start** → say **Yes, collects data** → select **Name**,
+  **Phone number**, **App activity**; mark each **collected, not shared**, purpose
+  **App functionality / Account management**, **encrypted in transit**, users **can
+  request deletion** → Save and submit.
+- **Government apps** → **No**.
 
-### 3d. Main store listing (left menu → Grow → Store presence → Main store listing)
-- Short description + Full description (Section 1).
-- **App icon:** `store-assets/play-icon-512.png`
-- **Feature graphic:** `store-assets/play-feature-1024x500.png`
-- **Phone screenshots:** your 2–8 captures.
+### Step 4 — Store listing (left menu → **Grow → Store presence → Main store listing**)
+- **App name:** `GoSee`
+- **Short description** box → paste the Google short description (Section 1).
+- **Full description** box → paste the Full description (Section 1).
+- **App icon** → upload `store-assets/play-icon-512.png`
+- **Feature graphic** → upload `store-assets/play-feature-1024x500.png`
+- **Phone screenshots** → upload your 2–8 phone screenshots → **Save**.
 
-### 3e. Release to Production
-1. Left menu → **Production → Create new release**.
-2. Upload the `.aab` from step 3a.
-3. Release name `1.0`, release notes e.g. "First release of GoSee."
-4. **Review release → Start rollout to Production.**
+### Step 5 — Upload the app and release (left menu → **Production**)
+- Click **Production** → **Create new release** (top-right).
+- Under **App bundles**, click **Upload** and choose the **`.aab`** file from Step 1.
+- **Release name:** `1.0` · **Release notes:** `First release of GoSee.`
+- Click **Next / Save**, then **Review release**, then **Start roll-out to Production**.
 
 > Important: brand-new **individual** Google developer accounts must run **Closed
 > testing with 20 testers for 14 days** before Production is unlocked. **Organisation

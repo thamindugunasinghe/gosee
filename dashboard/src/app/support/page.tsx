@@ -2,7 +2,7 @@ import { LegalPage, P, H2, UL } from "../legal-ui";
 
 export const metadata = { title: "Support — GoSee" };
 
-const CONTACT = "transfleet.primecare@gmail.com";
+const CONTACT = "team@wiwisai.com";
 
 export default function SupportPage() {
   return (
