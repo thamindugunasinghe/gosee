@@ -3,20 +3,21 @@
 Everything to take GoSee live on the **Apple App Store** and **Google Play**, plus
 the exact text/answers to paste into each form.
 
-> Before you start, verify two things in the legal pages and update if needed:
-> company legal name (`WIWIS (Pvt) Ltd`) and contact email
-> (`transfleet.primecare@gmail.com`) in `dashboard/src/app/privacy/page.tsx`,
-> `terms/page.tsx`, `support/page.tsx`.
+> Before you start, confirm the company name (`WIWIS AI`) and contact email
+> (`transfleet.primecare@gmail.com`) are correct in the legal pages
+> (`dashboard/src/app/privacy/page.tsx`, `terms/page.tsx`, `support/page.tsx`).
+> Consider switching the email to a `@wiwisai.com` address — just make sure that
+> inbox is monitored, since app reviewers may email it.
 
 ---
 
 ## 0. Shared assets (used by both stores)
 
 **Live URLs** (public pages are now on your Vercel site — push + redeploy to activate):
-- Privacy Policy: `https://gosee-phi.vercel.app/privacy`
-- Terms of Use: `https://gosee-phi.vercel.app/terms`
-- Support: `https://gosee-phi.vercel.app/support`
-- Marketing/home: `https://gosee-phi.vercel.app/`
+- Privacy Policy: `https://gosee.wiwisai.com/privacy`
+- Terms of Use: `https://gosee.wiwisai.com/terms`
+- Support: `https://gosee.wiwisai.com/support`
+- Marketing/home: `https://gosee.wiwisai.com/`
 
 **Graphics** (in `store-assets/`):
 - `play-icon-512.png` — Google Play app icon (512×512)
@@ -82,9 +83,9 @@ GoSee is a business tool. Accounts are provided by your organisation's procureme
 
 **Category:** Primary **Business** · Secondary **Productivity**
 **Price:** Free
-**Support URL:** `https://gosee-phi.vercel.app/support`
-**Marketing URL** (optional): `https://gosee-phi.vercel.app/`
-**Privacy Policy URL:** `https://gosee-phi.vercel.app/privacy`
+**Support URL:** `https://gosee.wiwisai.com/support`
+**Marketing URL** (optional): `https://gosee.wiwisai.com/`
+**Privacy Policy URL:** `https://gosee.wiwisai.com/privacy`
 
 **Age rating:** No objectionable content → **Apple 4+ / Google Everyone**.
 
@@ -140,7 +141,7 @@ npx eas-cli build --platform android --profile production
 2. Name `GoSee`, default language English, type **App**, **Free**, accept declarations.
 
 ### 3c. Fill "App content" (left menu → Policy → App content)
-- **Privacy policy:** `https://gosee-phi.vercel.app/privacy`
+- **Privacy policy:** `https://gosee.wiwisai.com/privacy`
 - **App access:** *All functionality is restricted* → add instructions:
   "Log in on the mobile app with phone 0771000001 and code 000000."
 - **Ads:** No.

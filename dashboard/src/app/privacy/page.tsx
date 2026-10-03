@@ -3,7 +3,7 @@ import { LegalPage, P, H2, UL } from "../legal-ui";
 export const metadata = { title: "Privacy Policy — GoSee" };
 
 // NOTE: confirm the company legal name and contact email below before publishing.
-const COMPANY = "WIWIS (Pvt) Ltd";
+const COMPANY = "WIWIS AI";
 const CONTACT = "transfleet.primecare@gmail.com";
 const EFFECTIVE = "3 October 2026";
 
