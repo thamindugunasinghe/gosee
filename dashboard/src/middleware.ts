@@ -30,8 +30,12 @@ export async function middleware(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const isLoginPage = request.nextUrl.pathname.startsWith("/login");
-  if (!user && !isLoginPage) {
+  const path = request.nextUrl.pathname;
+  const isLoginPage = path.startsWith("/login");
+  // Public pages (no login) — required for app-store privacy/support URLs.
+  const isPublic =
+    isLoginPage || path.startsWith("/privacy") || path.startsWith("/terms") || path.startsWith("/support");
+  if (!user && !isPublic) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
   if (user && isLoginPage) {
